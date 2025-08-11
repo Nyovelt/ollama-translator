@@ -17,10 +17,15 @@ out
 
 # Development files
 .git
+.github
 .gitignore
 README.md
+DOCKER.md
 .vscode
 .idea
+
+# Scripts (not needed in container)
+scripts/
 
 # OS generated files
 .DS_Store
@@ -48,6 +53,18 @@ jspm_packages/
 
 # Optional npm cache directory
 .npm
+
+# Docker files (not needed in final image)
+Dockerfile*
+docker-compose*.yml
+
+# Testing
+test/
+tests/
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
 
 # Optional REPL history
 .node_repl_history

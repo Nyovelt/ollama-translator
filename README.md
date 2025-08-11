@@ -247,7 +247,52 @@ npx vercel --prod
 ### Configuration Priority
 1. **Custom Configuration**: If all `NEXT_PUBLIC_CUSTOM_*` variables are set, this becomes the default
 2. **Selected Default**: Use `NEXT_PUBLIC_DEFAULT_CONFIG_ID` to choose between built-in configs
-3. **Built-in Defaults**: Falls back to Ollama configuration
+3. **Fallback**: Falls back to Ollama configuration
+
+## GitHub Actions & CI/CD
+
+This project includes comprehensive GitHub Actions workflows for automated building, testing, and deployment.
+
+### Available Workflows
+
+#### 🐳 **Docker Build** (`.github/workflows/docker-build.yml`)
+- Builds production Docker images on main branch pushes and releases
+- Pushes to GitHub Container Registry (ghcr.io)
+- Supports multi-platform builds (amd64, arm64)
+- Automatic tagging based on git refs
+
+### Using Docker Images from GitHub Container Registry
+
+```bash
+# Pull latest production image
+docker pull ghcr.io/nyovelt/ollama-translator:latest
+
+# Run with Ollama
+docker run -p 3000:3000 
+  -e NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434 
+  -e NEXT_PUBLIC_DEFAULT_MODEL=llama3.1 
+  ghcr.io/nyovelt/ollama-translator:latest
+
+```
+
+### Setting Up for Your Repository
+
+1. **Enable GitHub Packages**: Ensure your repository has package publishing enabled
+2. **Repository Secrets**: No additional secrets needed - uses `GITHUB_TOKEN`
+3. **Branch Protection**: Consider protecting `main` branch to require PR reviews
+
+### Manual Builds
+
+You can trigger builds manually:
+
+```bash
+# Trigger a development build
+git push origin feature/your-feature-name
+
+# Create a release
+git tag v1.0.0
+git push origin v1.0.0
+```
 
 ## Docker Configuration
 
