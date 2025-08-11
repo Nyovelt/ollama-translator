@@ -62,6 +62,7 @@ The application comes with default configurations for:
 You can customize the default configuration through environment variables:
 
 #### Environment-based Configuration
+
 ```bash
 # Set default Ollama configuration
 NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434
@@ -76,12 +77,15 @@ NEXT_PUBLIC_CUSTOM_API_KEY=optional_api_key
 ```
 
 #### Pre-configured Environment Files
+
 The project includes several example configurations:
+
 - `.env.production` - Standard Ollama setup
 - `.env.openai` - OpenAI as default
 - `.env.groq` - Groq as default
 
 To use a specific configuration:
+
 ```bash
 cp .env.groq .env.local
 npm run dev
@@ -176,6 +180,7 @@ The translation API (`/api/translate`) handles multiple LLM formats:
 ## Deployment
 
 ### Local Production Build
+
 ```bash
 npm run build
 npm start
@@ -184,6 +189,7 @@ npm start
 ### Docker Deployment
 
 #### Quick Start with Docker Compose
+
 ```bash
 # Clone and navigate to project
 git clone <your-repo-url>
@@ -197,18 +203,20 @@ open http://localhost:3000
 ```
 
 #### Manual Docker Build
+
 ```bash
 # Build the image
 docker build -t ollama-translator .
 
 # Run the container
-docker run -p 3000:3000 
-  -e NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434 
-  -e NEXT_PUBLIC_DEFAULT_MODEL=llama3.1 
+docker run -p 3000:3000
+  -e NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434
+  -e NEXT_PUBLIC_DEFAULT_MODEL=llama3.1
   ollama-translator
 ```
 
 #### Development with Docker
+
 ```bash
 # Start development environment
 docker-compose -f docker-compose.dev.yml up
@@ -218,6 +226,7 @@ docker-compose -f docker-compose.dev.yml up
 ```
 
 #### Production Deployment
+
 ```bash
 # Full production setup with Nginx
 docker-compose --profile production up -d
@@ -227,24 +236,26 @@ docker-compose --profile production up -d
 ```
 
 ### Deploy to Vercel
+
 ```bash
 npx vercel --prod
 ```
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_DEFAULT_API_URL` | Default LLM API URL | `http://localhost:11434` |
-| `NEXT_PUBLIC_DEFAULT_MODEL` | Default model name | `llama3.1` |
-| `NEXT_PUBLIC_DEFAULT_API_KEY` | Default API key | None |
-| `NEXT_PUBLIC_DEFAULT_CONFIG_ID` | Which config to use as default | `ollama-default` |
-| `NEXT_PUBLIC_CUSTOM_LLM_NAME` | Custom LLM display name | None |
-| `NEXT_PUBLIC_CUSTOM_API_URL` | Custom LLM API URL | None |
-| `NEXT_PUBLIC_CUSTOM_MODEL` | Custom LLM model name | None |
-| `NEXT_PUBLIC_CUSTOM_API_KEY` | Custom LLM API key | None |
+| Variable                        | Description                    | Default                  |
+| ------------------------------- | ------------------------------ | ------------------------ |
+| `NEXT_PUBLIC_DEFAULT_API_URL`   | Default LLM API URL            | `http://localhost:11434` |
+| `NEXT_PUBLIC_DEFAULT_MODEL`     | Default model name             | `llama3.1`               |
+| `NEXT_PUBLIC_DEFAULT_API_KEY`   | Default API key                | None                     |
+| `NEXT_PUBLIC_DEFAULT_CONFIG_ID` | Which config to use as default | `ollama-default`         |
+| `NEXT_PUBLIC_CUSTOM_LLM_NAME`   | Custom LLM display name        | None                     |
+| `NEXT_PUBLIC_CUSTOM_API_URL`    | Custom LLM API URL             | None                     |
+| `NEXT_PUBLIC_CUSTOM_MODEL`      | Custom LLM model name          | None                     |
+| `NEXT_PUBLIC_CUSTOM_API_KEY`    | Custom LLM API key             | None                     |
 
 ### Configuration Priority
+
 1. **Custom Configuration**: If all `NEXT_PUBLIC_CUSTOM_*` variables are set, this becomes the default
 2. **Selected Default**: Use `NEXT_PUBLIC_DEFAULT_CONFIG_ID` to choose between built-in configs
 3. **Fallback**: Falls back to Ollama configuration
@@ -256,6 +267,7 @@ This project includes comprehensive GitHub Actions workflows for automated build
 ### Available Workflows
 
 #### 🐳 **Docker Build** (`.github/workflows/docker-build.yml`)
+
 - Builds production Docker images on main branch pushes and releases
 - Pushes to GitHub Container Registry (ghcr.io)
 - Supports multi-platform builds (amd64, arm64)
@@ -268,9 +280,9 @@ This project includes comprehensive GitHub Actions workflows for automated build
 docker pull ghcr.io/nyovelt/ollama-translator:latest
 
 # Run with Ollama
-docker run -p 3000:3000 
-  -e NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434 
-  -e NEXT_PUBLIC_DEFAULT_MODEL=llama3.1 
+docker run -p 3000:3000
+  -e NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434
+  -e NEXT_PUBLIC_DEFAULT_MODEL=llama3.1
   ghcr.io/nyovelt/ollama-translator:latest
 
 ```
@@ -297,15 +309,18 @@ git push origin v1.0.0
 ## Docker Configuration
 
 ### Available Images
+
 - **Production**: `ollama-translator:latest` - Optimized production build
 - **Development**: `ollama-translator:dev` - Development with hot reload
 
 ### Docker Compose Services
+
 - **ollama-translator**: Main web application
 - **ollama**: Local Ollama service for LLM inference
 - **nginx**: Reverse proxy with SSL support (production profile)
 
 ### Docker Environment Variables
+
 ```bash
 # Docker Compose environment
 NEXT_PUBLIC_DEFAULT_API_URL=http://ollama:11434
@@ -314,10 +329,12 @@ NODE_ENV=production
 ```
 
 ### Volume Mounts
+
 - `ollama-data`: Persistent storage for Ollama models
 - `./ssl`: SSL certificates for HTTPS (production)
 
 ### Useful Docker Commands
+
 ```bash
 # View logs
 docker-compose logs -f ollama-translator

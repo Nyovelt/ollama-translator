@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { LLMConfig, getAllLLMConfigs, DEFAULT_LLM_CONFIGS } from "@/types/translator";
+import {
+  LLMConfig,
+  getAllLLMConfigs,
+  DEFAULT_LLM_CONFIGS,
+} from "@/types/translator";
 import { MdSettings, MdClose, MdAdd, MdDelete } from "react-icons/md";
 
 interface ConfigPanelProps {

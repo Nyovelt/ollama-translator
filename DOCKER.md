@@ -3,6 +3,7 @@
 ## Quick Start
 
 ### Option 1: Docker Compose (Recommended)
+
 ```bash
 # Start the full stack (App + Ollama)
 docker-compose up -d
@@ -12,6 +13,7 @@ open http://localhost:3000
 ```
 
 ### Option 2: Standalone Container
+
 ```bash
 # Build the image
 docker build -t ollama-translator .
@@ -23,16 +25,19 @@ docker run -p 3000:3000 ollama-translator
 ## Available Services
 
 ### 🌐 Web Application
+
 - **Port**: 3000
 - **URL**: http://localhost:3000
 - **Image**: `ollama-translator:latest`
 
 ### 🤖 Ollama Service
+
 - **Port**: 11434
 - **URL**: http://localhost:11434
 - **Image**: `ollama/ollama:latest`
 
 ### 🔒 Nginx Proxy (Production)
+
 - **Port**: 80, 443
 - **Profile**: `production`
 - **Features**: SSL, Rate limiting, Caching
@@ -63,6 +68,7 @@ docker-compose --profile production up -d
 ## Environment Configuration
 
 ### Docker Environment Variables
+
 ```bash
 # Docker Compose environment
 NEXT_PUBLIC_DEFAULT_API_URL=http://ollama:11434
@@ -78,6 +84,7 @@ NEXT_PUBLIC_CUSTOM_API_KEY=your_api_key
 ```
 
 ### Environment File Deployment
+
 ```bash
 # Deploy with specific configuration
 docker-compose --env-file .env.openai up -d
@@ -90,7 +97,9 @@ docker-compose --env-file .env.custom up -d
 ```
 
 ### Custom Configuration
+
 Create a `.env` file:
+
 ```env
 NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434
 NEXT_PUBLIC_DEFAULT_MODEL=llama3.1
@@ -100,10 +109,12 @@ NEXT_PUBLIC_DEFAULT_API_KEY=your_api_key_here
 ## Volume Management
 
 ### Persistent Data
+
 - **ollama-data**: Stores downloaded models and configuration
 - **Location**: `/root/.ollama` inside container
 
 ### Backup Models
+
 ```bash
 # Backup Ollama models
 docker-compose exec ollama tar -czf /tmp/ollama-backup.tar.gz /root/.ollama
@@ -117,6 +128,7 @@ docker-compose exec ollama tar -xzf /tmp/ollama-backup.tar.gz -C /
 ## Model Management
 
 ### Download Models
+
 ```bash
 # Download specific model
 docker-compose exec ollama ollama pull llama3.1
@@ -129,7 +141,9 @@ docker-compose exec ollama ollama rm <model-name>
 ```
 
 ### GPU Support
+
 Add GPU support to docker-compose.yml:
+
 ```yaml
 services:
   ollama:
@@ -145,19 +159,23 @@ services:
 ## Production Deployment
 
 ### SSL Configuration
+
 1. Place SSL certificates in `./ssl/` directory
 2. Update `nginx.conf` with your domain
 3. Start with production profile:
+
 ```bash
 docker-compose --profile production up -d
 ```
 
 ### Performance Optimization
+
 - Use Docker BuildKit for faster builds
 - Configure resource limits in docker-compose.yml
 - Monitor with docker stats
 
 ### Security Best Practices
+
 - Run containers as non-root user ✅
 - Use multi-stage builds ✅
 - Implement health checks ✅
@@ -169,6 +187,7 @@ docker-compose --profile production up -d
 ### Common Issues
 
 **Container won't start**
+
 ```bash
 # Check logs
 docker-compose logs ollama-translator
@@ -178,6 +197,7 @@ docker-compose ps
 ```
 
 **Ollama connection failed**
+
 ```bash
 # Verify Ollama is running
 docker-compose ps ollama
@@ -190,6 +210,7 @@ curl http://localhost:11434/api/version
 ```
 
 **Build failures**
+
 ```bash
 # Clean build
 docker-compose build --no-cache
@@ -199,6 +220,7 @@ docker system prune -a
 ```
 
 ### Performance Issues
+
 - **Slow inference**: Consider using smaller models or GPU acceleration
 - **Memory usage**: Monitor with `docker stats`
 - **Network latency**: Use internal Docker networking
@@ -206,11 +228,13 @@ docker system prune -a
 ## Utility Scripts
 
 ### Build Script
+
 ```bash
 ./scripts/build.sh
 ```
 
 ### Deployment Script
+
 ```bash
 ./scripts/deploy.sh
 ```
@@ -218,11 +242,13 @@ docker system prune -a
 ## Monitoring
 
 ### Health Checks
+
 - **Application**: `/` endpoint
 - **Ollama**: `/api/version` endpoint
 - **Automatic**: Docker health checks every 30s
 
 ### Logging
+
 ```bash
 # Follow logs
 docker-compose logs -f
@@ -237,6 +263,7 @@ docker-compose logs -t --since="1h"
 ## Development Mode
 
 ### Hot Reload Development
+
 ```bash
 # Start development environment
 docker-compose -f docker-compose.dev.yml up
@@ -246,6 +273,7 @@ open http://localhost:3000
 ```
 
 ### Debug Mode
+
 ```bash
 # Run with shell access
 docker run -it --rm ollama-translator sh
