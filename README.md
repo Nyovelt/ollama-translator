@@ -59,6 +59,34 @@ The application comes with default configurations for:
 - **Ollama (Local)**: `http://localhost:11434` with `llama3.1` model
 - **OpenAI**: `https://api.openai.com/v1` with `gpt-3.5-turbo` model
 
+You can customize the default configuration through environment variables:
+
+#### Environment-based Configuration
+```bash
+# Set default Ollama configuration
+NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434
+NEXT_PUBLIC_DEFAULT_MODEL=llama3.1
+NEXT_PUBLIC_DEFAULT_CONFIG_ID=ollama-default
+
+# Or create a completely custom default
+NEXT_PUBLIC_CUSTOM_LLM_NAME=My Custom LLM
+NEXT_PUBLIC_CUSTOM_API_URL=http://my-llm-server:8080
+NEXT_PUBLIC_CUSTOM_MODEL=my-model-name
+NEXT_PUBLIC_CUSTOM_API_KEY=optional_api_key
+```
+
+#### Pre-configured Environment Files
+The project includes several example configurations:
+- `.env.production` - Standard Ollama setup
+- `.env.openai` - OpenAI as default
+- `.env.groq` - Groq as default
+
+To use a specific configuration:
+```bash
+cp .env.groq .env.local
+npm run dev
+```
+
 ### Adding Custom LLM Backends
 
 1. Click the **Settings** button in the top-right corner
@@ -205,11 +233,21 @@ npx vercel --prod
 
 ## Environment Variables
 
-| Variable                      | Description         | Default                  |
-| ----------------------------- | ------------------- | ------------------------ |
+| Variable | Description | Default |
+|----------|-------------|---------|
 | `NEXT_PUBLIC_DEFAULT_API_URL` | Default LLM API URL | `http://localhost:11434` |
-| `NEXT_PUBLIC_DEFAULT_MODEL`   | Default model name  | `llama3.1`               |
-| `NEXT_PUBLIC_DEFAULT_API_KEY` | Default API key     | None                     |
+| `NEXT_PUBLIC_DEFAULT_MODEL` | Default model name | `llama3.1` |
+| `NEXT_PUBLIC_DEFAULT_API_KEY` | Default API key | None |
+| `NEXT_PUBLIC_DEFAULT_CONFIG_ID` | Which config to use as default | `ollama-default` |
+| `NEXT_PUBLIC_CUSTOM_LLM_NAME` | Custom LLM display name | None |
+| `NEXT_PUBLIC_CUSTOM_API_URL` | Custom LLM API URL | None |
+| `NEXT_PUBLIC_CUSTOM_MODEL` | Custom LLM model name | None |
+| `NEXT_PUBLIC_CUSTOM_API_KEY` | Custom LLM API key | None |
+
+### Configuration Priority
+1. **Custom Configuration**: If all `NEXT_PUBLIC_CUSTOM_*` variables are set, this becomes the default
+2. **Selected Default**: Use `NEXT_PUBLIC_DEFAULT_CONFIG_ID` to choose between built-in configs
+3. **Built-in Defaults**: Falls back to Ollama configuration
 
 ## Docker Configuration
 

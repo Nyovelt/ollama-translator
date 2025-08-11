@@ -12,6 +12,12 @@ services:
       - NODE_ENV=production
       - NEXT_PUBLIC_DEFAULT_API_URL=http://ollama:11434
       - NEXT_PUBLIC_DEFAULT_MODEL=llama3.1
+      - NEXT_PUBLIC_DEFAULT_CONFIG_ID=ollama-default
+      # Uncomment and configure custom LLM if needed
+      # - NEXT_PUBLIC_CUSTOM_LLM_NAME=Custom LLM
+      # - NEXT_PUBLIC_CUSTOM_API_URL=http://custom-llm:8080
+      # - NEXT_PUBLIC_CUSTOM_MODEL=custom-model
+      # - NEXT_PUBLIC_CUSTOM_API_KEY=your_api_key
     depends_on:
       - ollama
     networks:

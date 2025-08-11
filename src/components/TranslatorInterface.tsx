@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import {
   LLMConfig,
-  DEFAULT_LLM_CONFIGS,
+  getAllLLMConfigs,
+  getDefaultLLMConfig,
   DEFAULT_LANGUAGES,
   Language,
 } from "@/types/translator";
@@ -21,9 +22,9 @@ const TranslatorInterface: React.FC = () => {
   const [sourceLang, setSourceLang] = useState("auto");
   const [targetLang, setTargetLang] = useState("en");
   const [isLoading, setIsLoading] = useState(false);
-  const [configs, setConfigs] = useState<LLMConfig[]>(DEFAULT_LLM_CONFIGS);
+  const [configs, setConfigs] = useState<LLMConfig[]>(getAllLLMConfigs());
   const [selectedConfig, setSelectedConfig] = useState<LLMConfig>(
-    DEFAULT_LLM_CONFIGS[0]
+    getDefaultLLMConfig()
   );
   const [error, setError] = useState<string | null>(null);
 

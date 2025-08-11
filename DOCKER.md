@@ -62,11 +62,31 @@ docker-compose --profile production up -d
 
 ## Environment Configuration
 
-### Default Environment Variables
-```env
-NODE_ENV=production
+### Docker Environment Variables
+```bash
+# Docker Compose environment
 NEXT_PUBLIC_DEFAULT_API_URL=http://ollama:11434
 NEXT_PUBLIC_DEFAULT_MODEL=llama3.1
+NEXT_PUBLIC_DEFAULT_CONFIG_ID=ollama-default
+NODE_ENV=production
+
+# Custom configuration example
+NEXT_PUBLIC_CUSTOM_LLM_NAME=Custom LLM
+NEXT_PUBLIC_CUSTOM_API_URL=http://custom-api:8080
+NEXT_PUBLIC_CUSTOM_MODEL=custom-model
+NEXT_PUBLIC_CUSTOM_API_KEY=your_api_key
+```
+
+### Environment File Deployment
+```bash
+# Deploy with specific configuration
+docker-compose --env-file .env.openai up -d
+
+# Deploy with custom environment
+echo "NEXT_PUBLIC_CUSTOM_LLM_NAME=My LLM" > .env.custom
+echo "NEXT_PUBLIC_CUSTOM_API_URL=http://my-api:8080" >> .env.custom
+echo "NEXT_PUBLIC_CUSTOM_MODEL=my-model" >> .env.custom
+docker-compose --env-file .env.custom up -d
 ```
 
 ### Custom Configuration

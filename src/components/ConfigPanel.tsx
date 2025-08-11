@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { LLMConfig, DEFAULT_LLM_CONFIGS } from "@/types/translator";
+import { LLMConfig, getAllLLMConfigs, DEFAULT_LLM_CONFIGS } from "@/types/translator";
 import { MdSettings, MdClose, MdAdd, MdDelete } from "react-icons/md";
 
 interface ConfigPanelProps {
@@ -78,8 +78,9 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({
   };
 
   const resetToDefaults = () => {
-    onConfigsChange(DEFAULT_LLM_CONFIGS);
-    onSelectedConfigChange(DEFAULT_LLM_CONFIGS[0]);
+    const defaultConfigs = getAllLLMConfigs();
+    onConfigsChange(defaultConfigs);
+    onSelectedConfigChange(defaultConfigs[0]);
   };
 
   return (
@@ -158,7 +159,7 @@ const ConfigPanel: React.FC<ConfigPanelProps> = ({
                             <MdSettings className="w-4 h-4" />
                           </button>
                           {!DEFAULT_LLM_CONFIGS.some(
-                            (dc) => dc.id === config.id
+                            (dc: LLMConfig) => dc.id === config.id
                           ) && (
                             <button
                               onClick={(e) => {
