@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Development version with hot reload
+  ollama-translator-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_DEFAULT_API_URL=http://localhost:11434
+      - NEXT_PUBLIC_DEFAULT_MODEL=llama3.1
+    networks:
+      - translator-network
+    restart: unless-stopped
+
+networks:
+  translator-network:
+    driver: bridge

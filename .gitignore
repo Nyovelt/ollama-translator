@@ -1,0 +1,15 @@
+node_modules
+.next
+.env*.local
+.vercel
+*.log
+dist
+build
+.DS_Store
+
+# Docker volumes and data
+.docker/
+docker-volumes/
+
+# SSL certificates (if using HTTPS)
+ssl/
