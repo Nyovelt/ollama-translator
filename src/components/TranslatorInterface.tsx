@@ -1,14 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import {
-  LLMConfig,
-  getAllLLMConfigs,
-  getDefaultLLMConfig,
-  DEFAULT_LANGUAGES,
-  Language,
-} from "@/types/translator";
-import ConfigPanel from "./ConfigPanel";
+import React, { useState } from "react";
+import { DEFAULT_LANGUAGES } from "@/types/translator";
 import {
   MdSwapHoriz,
   MdTranslate,
@@ -22,45 +15,7 @@ const TranslatorInterface: React.FC = () => {
   const [sourceLang, setSourceLang] = useState("auto");
   const [targetLang, setTargetLang] = useState("en");
   const [isLoading, setIsLoading] = useState(false);
-  const [configs, setConfigs] = useState<LLMConfig[]>(getAllLLMConfigs());
-  const [selectedConfig, setSelectedConfig] = useState<LLMConfig>(
-    getDefaultLLMConfig()
-  );
   const [error, setError] = useState<string | null>(null);
-
-  // Load configs from localStorage on mount
-  useEffect(() => {
-    try {
-      const savedConfigs = localStorage.getItem("llm-configs");
-      const savedSelectedConfig = localStorage.getItem("selected-config");
-
-      if (savedConfigs) {
-        const parsedConfigs = JSON.parse(savedConfigs);
-        setConfigs(parsedConfigs);
-
-        if (savedSelectedConfig) {
-          const parsedSelected = JSON.parse(savedSelectedConfig);
-          const foundConfig = parsedConfigs.find(
-            (c: LLMConfig) => c.id === parsedSelected.id
-          );
-          if (foundConfig) {
-            setSelectedConfig(foundConfig);
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Failed to load configs from localStorage:", error);
-    }
-  }, []);
-
-  // Save configs to localStorage when they change
-  useEffect(() => {
-    localStorage.setItem("llm-configs", JSON.stringify(configs));
-  }, [configs]);
-
-  useEffect(() => {
-    localStorage.setItem("selected-config", JSON.stringify(selectedConfig));
-  }, [selectedConfig]);
 
   const handleTranslate = async () => {
     if (!sourceText.trim()) return;
@@ -78,7 +33,6 @@ const TranslatorInterface: React.FC = () => {
           text: sourceText,
           sourceLang,
           targetLang,
-          config: selectedConfig,
         }),
       });
 
@@ -125,19 +79,11 @@ const TranslatorInterface: React.FC = () => {
           <div className="flex items-center gap-3">
             <MdTranslate className="w-8 h-8 text-blue-500" />
             <h1 className="text-2xl font-bold text-gray-900">
-              Ollama Translator
+              Ollama Translate
             </h1>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-gray-600">
-              Using: <span className="font-medium">{selectedConfig.name}</span>
-            </div>
-            <ConfigPanel
-              configs={configs}
-              selectedConfig={selectedConfig}
-              onConfigsChange={setConfigs}
-              onSelectedConfigChange={setSelectedConfig}
-            />
+          <div className="text-sm text-gray-500">
+            Server-side LLM translation
           </div>
         </div>
       </header>
@@ -285,29 +231,6 @@ const TranslatorInterface: React.FC = () => {
                       : "Translation will appear here")}
                 </p>
               )}
-            </div>
-          </div>
-        </div>
-
-        {/* Configuration Info */}
-        <div className="mt-8 bg-white rounded-lg shadow-sm border p-6">
-          <h3 className="text-lg font-medium mb-4">Current Configuration</h3>
-          <div className="grid md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="font-medium text-gray-700">Name:</span>{" "}
-              {selectedConfig.name}
-            </div>
-            <div>
-              <span className="font-medium text-gray-700">Model:</span>{" "}
-              {selectedConfig.model}
-            </div>
-            <div>
-              <span className="font-medium text-gray-700">API URL:</span>{" "}
-              {selectedConfig.apiUrl}
-            </div>
-            <div>
-              <span className="font-medium text-gray-700">API Key:</span>{" "}
-              {selectedConfig.apiKey ? "••••••••" : "Not set"}
             </div>
           </div>
         </div>
