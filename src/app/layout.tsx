@@ -2,8 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Ollama Translator",
-  description: "A web translator using LLM backends like Ollama",
+  title: "Ollama Translate",
+  description: "A web translator backed by a server-side LLM API",
 };
 
 export default function RootLayout({

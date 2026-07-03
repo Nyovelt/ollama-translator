@@ -1,24 +1,15 @@
 /** @type {import('next').NextConfig} */
+// The UI is built as a static export (out/) and served by the Express backend
+// (server/index.js) inside the single Docker container.
 const isStaticExport = process.env.NEXT_STATIC_EXPORT === 'true';
-const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
-const basePathEnv = process.env.NEXT_BASE_PATH || process.env.NEXT_PUBLIC_BASE_PATH;
-const basePath =
-  basePathEnv !== undefined
-    ? basePathEnv || undefined
-    : isStaticExport && repoName
-      ? `/${repoName}`
-      : undefined;
+// Optional base path (e.g. when hosted under a sub-path behind a reverse proxy).
+const basePath = process.env.NEXT_BASE_PATH || undefined;
 
 const nextConfig = {
-  // Use static output when building for GitHub Pages, otherwise keep server output
   output: isStaticExport ? 'export' : 'standalone',
   basePath,
   assetPrefix: basePath ? `${basePath}/` : undefined,
   trailingSlash: Boolean(isStaticExport),
-  // Optional: Configure for better Docker performance
-  experimental: {
-    outputFileTracingRoot: undefined,
-  },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
